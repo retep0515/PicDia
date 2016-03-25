@@ -225,6 +225,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case 4:  //功能設定  //傳回值用bitwise來看，如果是0表示沒有修改，else  &1 改語速 &2改語調  &4 改serverIP
                 //從回傳的intent拿修改資料
+                //後來想想覺得這方法不好
+                //準備改成使用sharedPreferences來更改設定
+
                 int cc=data.getExtras().getInt("changeCode");
                 float fc;String newip;
                 if((cc&1)>0){fc=data.getExtras().getFloat("speed");}
@@ -305,30 +308,11 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
-
-
-
-
-
-
-
-
                 break;
         }
 
 
-
-
-
-
     }
-
-
-
-
-
-
 
 
 

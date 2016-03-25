@@ -9,4 +9,65 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.imf.picdia.Setting">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="語速調整"
+        android:id="@+id/ttsspeed"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textSize="24dp" />
+
+    <SeekBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ttsspeedbar"
+        android:layout_below="@+id/ttsspeed"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:indeterminate="false" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="語調調整"
+        android:id="@+id/ttspitch"
+        android:layout_below="@+id/ttsspeedbar"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textSize="24dp" />
+
+    <SeekBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ttsspitchbar"
+        android:layout_below="@+id/ttspitch"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/ttsspeedbar"
+        android:layout_alignEnd="@+id/ttsspeedbar"
+        android:indeterminate="false" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="取消"
+        android:id="@+id/setting_cancel"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textSize="24dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="確定"
+        android:id="@+id/setting_update"
+        android:layout_alignTop="@+id/setting_cancel"
+        android:layout_alignRight="@+id/ttsspitchbar"
+        android:layout_alignEnd="@+id/ttsspitchbar"
+        android:textSize="24dp" />
 </RelativeLayout>

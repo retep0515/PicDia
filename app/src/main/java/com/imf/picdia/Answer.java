@@ -1,6 +1,11 @@
 package com.imf.picdia;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -32,7 +37,8 @@ public class Answer extends AppCompatActivity {
     private Intent intent;
     private Bundle bundle;
     String s;
-    String answer,score,webip,lastid,photodir;
+    String answer,score,webip,lastid,photodir,toSpeak;
+
 
 
 
@@ -49,23 +55,23 @@ public class Answer extends AppCompatActivity {
         TextView chtxt= (TextView)findViewById(R.id.CH);
         TextView entxt= (TextView)findViewById(R.id.EN);
         chtxt.setVisibility(TextView.INVISIBLE);//先不顯示中文
-        Button aback = (Button)findViewById(R.id.ab_button); //之後會用imageButtom替換掉
+        //Button aback = (Button)findViewById(R.id.ab_button); //之後會用imageButtom替換掉
         intent = this.getIntent();
         bundle = intent.getExtras();
         webip=bundle.getString("webip");
         lastid=bundle.getString("lastid");
-        photodir=bundle.getString("photodir",photodir);
+        photodir=bundle.getString("photodir");
 
         Thread t0= new Thread(waitAnswer);
         t0.run();
 
+
+
         repeat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //////////////////////////////////////////////////////////////////
                 //讓TTS再念一次
-
-
+                tts.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
             }
         });
 
@@ -74,7 +80,6 @@ public class Answer extends AppCompatActivity {
             public void onClick(View v) {
                 setResult(1, intent);
                 finish();
-
 
             }
         });
@@ -85,25 +90,38 @@ public class Answer extends AppCompatActivity {
                 setResult(0, intent);
                 finish();
 
-
-
             }
         });
 
-        aback.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
+        while (answer.length() <= 2) {
+
+            try {
+                sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                Log.e("sleep()失敗", "debug");
             }
-        });
+
+        }
+
+        BitmapFactory.Options options;
+        options = new BitmapFactory.Options();
+        options.inSampleSize = 2;
+        Bitmap bmp = BitmapFactory.decodeFile(photodir+"/now2.jpg", options);
+        photoView.setImageBitmap(bmp);
 
 
+        //panswer.setText("辨識結果: " + answer);
+        //pscore.setText("照片分數: "+score);
 
+        //接下來要把結果唸出來
 
+        toSpeak = answer;
 
+        tts = new TextToSpeech(Answer.this, ttsInitListener);
 
-
-
+        Toast.makeText(getApplicationContext(), toSpeak, Toast.LENGTH_SHORT).show();
+        tts.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
 
     }
 
@@ -124,7 +142,7 @@ public class Answer extends AppCompatActivity {
 // 速度(1為正常速度；0.5比正常速度慢一倍；2比正常速度快一倍)
                     tts.setSpeechRate((float) 1.0);
 // 設定要說的內容文字
-                    tts.speak("TTTTTTTTTTTTTTTTTTTTTTTTTS", TextToSpeech.QUEUE_FLUSH, null);
+                    tts.speak(answer, TextToSpeech.QUEUE_FLUSH, null);
                 }
             } else {
                 //Toast.makeText(MainActivity.this, "Initialization Failed!",
@@ -179,11 +197,30 @@ public class Answer extends AppCompatActivity {
     }
 
 
+    private final BroadcastReceiver AsyncTaskForPostFileReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            Toast.makeText(Answer.this, "PostFileComplete", Toast.LENGTH_SHORT).show();
+            //開thread 那一整段移到這裡
+            // get ? 名稱="........"
+            // ###################__________###############_____________
+            // TextView set text
+
+        }
+    };
+
+
 
 
     Runnable waitAnswer =new Runnable() {
         @Override
         public void run() {
+            ///////////////////上傳照片並等待辨識結果
+            registerReceiver(AsyncTaskForPostFileReceiver, new IntentFilter("PostFileComplete"));
+            AsyncTaskForPostFile PostFile = new AsyncTaskForPostFile(Answer.this);
+            PostFile.execute(photodir + "/now2.jpg", webip + "test.php", lastid + ".jpg");
+
             int i, k;
             String now;// = getHTML(webip+"getResult.php?id=" + lastid);
             now = getHTML(webip + "getResult.php?id=" + lastid);
