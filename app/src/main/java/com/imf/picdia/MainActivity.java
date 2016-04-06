@@ -39,15 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
     //_________________________________________________________________________
 
-    /*
-    從喵喵給的SQLiteCode裡面，把這三個.java檔複製進來修改使用
 
-    DBcontact
-    DbDAO
-    MyDBHelper
-
-
-    */
 
     private static final String TAG="MainActivity";
 
