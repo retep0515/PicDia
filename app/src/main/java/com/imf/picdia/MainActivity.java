@@ -1,5 +1,7 @@
 package com.imf.picdia;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -31,10 +34,33 @@ import static java.lang.Thread.sleep;
 public class MainActivity extends AppCompatActivity {
 
 
+
+
+
+    //_________________________________________________________________________
+
+    /*
+    從喵喵給的SQLiteCode裡面，把這三個.java檔複製進來修改使用
+
+    DBcontact
+    DbDAO
+    MyDBHelper
+
+
+    */
+
+    private static final String TAG="MainActivity";
+
     int ask4txtio=0;//0:do nothing 1:read data  2:append new record
     boolean sdcardready,photoready,serverready;//確認SD卡該有的資料夾目錄都有了
     int lastserverRespondcode=-1;
-    String webip="http://192.168.0.100/photo/";  //小白盒wifi
+    String webip;
+    //String webip="http://192.168.0.100/photo/";  //小白盒wifi
+    //String webip="http://140.113.2.218/~p0213453/AndroidDB/";  //學校計中的server
+
+
+
+
     String photodir=getSdcardPath()+"/PicDia";
     String lastid="last";
     String answer="";
@@ -75,6 +101,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        webip=this.getString(R.string.webip);
+
         ImageButton pic=(ImageButton) findViewById(R.id.photo);
         ImageButton learn=(ImageButton) findViewById(R.id.learn);
         ImageButton selfTest=(ImageButton) findViewById(R.id.selfTest);
@@ -83,15 +111,15 @@ public class MainActivity extends AppCompatActivity {
 
 
         Thread t0 = new Thread(startCheck);
-        Thread t1 = new Thread(txtio);
+        //Thread t1 = new Thread(txtio);
         t0.start();
-        t1.start();
+        //t1.start();
 
         pic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 photoready=true;
-                lastid="last";
+                //lastid="last";
                 answer="";
                 score="";
                 Intent imgcap = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -110,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
                 intent.setClass(MainActivity.this,Learn.class);
                 Bundle bundle = new Bundle(); //需要塞進bundle裡面的東西都在intent呼叫之前前塞一塞
                 bundle.putString("wepip", webip);
-                bundle.putString("lastid",lastid);
+                //bundle.putString("lastid",lastid);
                 bundle.putString("photodir", photodir);
                 //bundle.putString("input", s2);
                 intent.putExtras(bundle);
@@ -192,6 +220,18 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    private final BroadcastReceiver AsyncTaskForPostFileReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            Toast.makeText(MainActivity.this, "PostFileComplete", Toast.LENGTH_SHORT).show();
+            //開thread 那一整段移到這裡
+            // get ? 名稱="........"
+            // ###################__________###############_____________
+            // TextView set text
+
+        }
+    };
 
     @Override
     protected void onActivityResult(int requestCode,int resultCode,Intent data) {
@@ -199,7 +239,7 @@ public class MainActivity extends AppCompatActivity {
         //先把switch的各個case區塊寫好吧
         Bundle bundle = new Bundle(); //需要塞進bundle裡面的東西都在intent呼叫之前前塞一塞
         bundle.putString("wepip", webip);
-        bundle.putString("lastid",lastid);
+        //bundle.putString("lastid",lastid);
         bundle.putString("photodir",photodir);
         Intent intent = new Intent();
         switch (requestCode){
@@ -250,10 +290,21 @@ public class MainActivity extends AppCompatActivity {
 
                 //iv.setImageDrawable(Drawable.createFromPath(path));
 
+                Log.e(TAG, "before sleep &now id is gotton");
+                //##################################################################
+                //我後來決定把getnowid這個thread 搬到 Answer.java 裡面才做
+
+
                 //在開始把照片縮小尺寸前，先執行Thread t1 = new Thread(getnowid);  //跟server要id編號
-                Thread tn = new Thread(getnowid);
-                tn.run();
+                //Thread tn = new Thread(getnowid);
+                //tn.run();
+                //////////////////////目前已確定 getnowid 裡面有 bug 待檢查?
+
+
                 //如果怕server太慢回應，可以先sleep(200);
+
+
+
 
 
                 double hi, wi, scale;
@@ -277,6 +328,8 @@ public class MainActivity extends AppCompatActivity {
 
                 //iv.setImageBitmap(bmp);
 
+
+
                 FileOutputStream out = null;
                 try {
                     out = new FileOutputStream(new File(photodir + "/now2.jpg"));
@@ -295,6 +348,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
+
+                Log.e(TAG,"Ready go into Answer.java");
                 intent.setClass(MainActivity.this,Answer.class);
 
 
@@ -456,6 +511,9 @@ public class MainActivity extends AppCompatActivity {
 
             String now=getHTML(webip+"nowid.php");
             int i,k;
+
+
+            Log.e("OnGetnowid","after visited nowid.php");
 
             i=now.indexOf("body");
             k=now.lastIndexOf("body");

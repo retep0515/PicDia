@@ -14,6 +14,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class AsyncTaskForPostFile extends AsyncTask<String, Integer, Void>{
+    private static final String TAG="AsynUpload.java";
     HttpURLConnection conn = null;
     DataOutputStream dos = null;
     String lineEnd = "\r\n";
