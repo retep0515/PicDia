@@ -72,6 +72,8 @@ public class Answer extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_answer);
+        //webip=this.getString(R.string.webip);
+        //直接從 R.string抓資料，這樣bundle可以少抓一個值
         webip=this.getString(R.string.webip);
 
         ImageButton repeat = (ImageButton)findViewById(R.id.repeat);

@@ -4,6 +4,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,12 +18,27 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.util.List;
+
 public class Speak extends AppCompatActivity {
 
     private static final String TAG="Speak.java";
     private ImageButton startSpeech;
     private TextView showWord, showCorrect, showStep, showOriginal;
     private Button backButton;
+    private ImageView SpeakPhoto;
+    String photosid;
+    String classname;//從聖涵那裡抓單字下來 //classname = "dog";
+    boolean gotAnswer;
+
+
+    //使用下面這兩個東西來跟SQLite拿拍照記錄的資料
+    private  DbDAO dbDAO;
+    private List<DBcontact> records;
+
+
+
     String question;
 
     @Override
@@ -32,12 +50,41 @@ public class Speak extends AppCompatActivity {
         showStep = (TextView)findViewById(R.id.textView3);
         showOriginal = (TextView)findViewById(R.id.textView4); //辨識出來圖片的字
         backButton =(Button)findViewById(R.id.button);
+        SpeakPhoto= (ImageView)findViewById(R.id.photo2speak);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View arg0) {
-                RecoverButton();
+            public void onClick(View v) {
+                finish();
+                //back to parent activity
             }
         });
+
+        gotAnswer=false;
+
+
+        dbDAO = new DbDAO(getApplicationContext());
+        records = dbDAO.getAll(); //這樣的方式有點冗，之後再改成只要隨機查詢一筆資料即可
+
+        for (DBcontact record : records) {
+            photosid=""+record.getSid();
+            classname=record.getPname();
+            break;
+            //這只是測試功能正常的寫法，只拿出第一筆照片紀錄來顯示，之後要改成隨機挑選
+        }
+
+
+        Log.e(photosid,classname);
+
+        BitmapFactory.Options options;
+        options = new BitmapFactory.Options();
+        options.inSampleSize = 2;
+        Bitmap bmp = BitmapFactory.decodeFile(getSdcardPath()+"/PicDia/photos/"+photosid+".jpg", options);
+        //Bitmap bmp = BitmapFactory.decodeFile(getSdcardPath()+"/PicDia+/now2.jpg", options);
+        SpeakPhoto.setImageBitmap(bmp);
+
+
+
+
 
 
         startSpeech = (ImageButton) findViewById(R.id.start_speech);
@@ -48,8 +95,7 @@ public class Speak extends AppCompatActivity {
                 intent.setClass(Speak.this, MainService.class);
                 intent.setPackage(getPackageName());
                 startService(intent);
-                String classname;//從聖涵那裡抓單字下來
-                classname = "dog";
+
                 //classname = getString(R.string.dog);
                 showOriginal.setText(classname);
                 showWord.setText("");
@@ -57,17 +103,16 @@ public class Speak extends AppCompatActivity {
                 showStep.setText("請說話");
                 startSpeech.setEnabled(false);
                 startSpeech.setVisibility(View.GONE);
-                Log.d(TAG, "jump2MainSer");
+                Log.d(TAG, "jump2MainService");
             }
         });
 
     }
-    /*
-        private ImageView Image;
-        private void findViews() {
-            Image = (ImageView) findViewById(R.id.imageView);
-        }
-    */
+
+
+
+
+
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -76,6 +121,7 @@ public class Speak extends AppCompatActivity {
             String sttresult = intent.getStringExtra("result");
             Log.d("receiver", "Got message: " + sttresult);
             Toast.makeText(Speak.this, sttresult, Toast.LENGTH_SHORT).show();
+            gotAnswer=true;
             showResult(sttresult);
         }
     };
@@ -91,7 +137,7 @@ public class Speak extends AppCompatActivity {
     public void showResult(String sttresult){
         showWord.setText(sttresult);
         //showOriginal.setText(classname);
-        if (sttresult.equals("dog"))
+        if (sttresult.equals(classname))
             showCorrect.setText("Correct");
         else
         {
@@ -128,10 +174,27 @@ public class Speak extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        //debug//////////////////////////////////////////////////
+        if(gotAnswer) {
+            Log.e("Speak", "Run to OnResume");
+        }
+        ////////////////////////////////////////////////////////
+
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("my-event"));
     }
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    public String getSdcardPath() {
+        File sdDir = null;
+        boolean sdCardExist = Environment.getExternalStorageState().equals(
+                android.os.Environment.MEDIA_MOUNTED);
+        if (sdCardExist) {
+            sdDir = Environment.getExternalStorageDirectory();
+        }
+        return sdDir.getPath();  //AVD logcat 指出 ，這行使用的to string 會有問題，要改
+        //Caused by: java.lang.NullPointerException: Attempt to invoke virtual method 'java.lang.String java.io.File.toString()' on a null object reference at com.imf.photoupload.MainActivity.getSdcardPath(MainActivity.java:151)
     }
 }

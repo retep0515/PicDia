@@ -1,8 +1,12 @@
 <resources>
     <string name="app_name">PicDia</string>
-    <string name="webip">http://192.168.0.100/photo/</string >
-    <!--    //小白盒wifi
+
     <string name="webip">http://140.113.2.218/~p0213453/AndroidDB/</string >
+    <!--    //小白盒wifi
+    <string name="webip">http://192.168.0.100/photo/</string >
     交大計中測試用server
+
+    <string name="webip">http://192.168.1.89/photo/</string >
+
     -->
 </resources>

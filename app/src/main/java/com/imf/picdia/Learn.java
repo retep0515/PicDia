@@ -20,17 +20,31 @@ public class Learn extends AppCompatActivity {
 
 
     private static final String TAG="Learn.java";
+
+    //DB
+
+    Long nowDBid;
+
+    ListView learnlist;
+
     private DBcontact dbcontact;
     //DB
     private DbDAO dbDAO;
-    Long nowDBid;
+    private static final String DBTag ="DBActivity";
+    // ListView使用的自定Adapter物件
+    private DBAdapter dbAdapter;
+    // 儲存所有記事本的List物件
+
+    // 選單項目物件
+
+    private Button toMap;
+    private Button backToMap;
+
 
 
     /*///////////////////////////////////////////
     // ListView使用的自定Adapter物件
     private DBAdapter dbAdapter;
-    //如果把這個class import近來，會有很多東西要改很麻煩，先暫時放著，要用到的時候再處理
-
 
     */
     // 儲存所有記事本的List物件
@@ -60,11 +74,16 @@ public class Learn extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_learn);
 
-        webip=this.getString(R.string.webip);
+        //webip=this.getString(R.string.webip);
         //直接從 R.string抓資料，這樣bundle可以少抓一個值
 
+        list_records=(ListView)findViewById(R.id.photoList);
+        DBLayout=(LinearLayout)findViewById(R.id.photoList);
 
-        WebView wv= (WebView)findViewById(R.id.WVhtml);
+
+
+        webip=this.getString(R.string.webip);
+        //WebView wv= (WebView)findViewById(R.id.WVhtml);
 
 
 
@@ -75,22 +94,6 @@ public class Learn extends AppCompatActivity {
         photodir=bundle.getString("photodir");
 
         //________________________DB______________________________
-
-
-        dbDAO = new DbDAO(getApplicationContext());
-
-
-        //dbDAO.sample();
-        //test/////////////////////////////////////////
-        //int intbuf=dbDAO.insertRecord(123,"456");
-        //Log.e(TAG,"returnID:"+intbuf);
-
-
-
-
-
-
-
         //insert 不行，換成用update操作試試
         //DBcontact RS1= new DBcontact(intbuf,111,"abcd");
         //boolean dbupdatereturn;
@@ -99,12 +102,31 @@ public class Learn extends AppCompatActivity {
         //else{Log.e(TAG,"update success");}
 
 
+        dbDAO = new DbDAO(getApplicationContext());
         records = dbDAO.getAll();  //把所有的資料都丟給 private List<DBcontact> records;
         //用dbDAO來取得資料庫並做操作
 
 
 
-        //records.add(RS1);
+
+
+        for (DBcontact record : records) {
+            dbAdapter = new DBAdapter(Learn.this, R.layout.db_item, records);
+            if (dbAdapter == null) {
+                Log.d(TAG, "list_recorder is null");
+            } else {
+                list_records.setAdapter(dbAdapter);
+                Log.i(TAG, "Get records  " + dbDAO.getCount());
+            }
+            setContentView(R.layout.activity_learn);
+
+        }
+
+
+
+
+
+
 
 
         str="<head><title>LearnRecord</title></head><body>" +
@@ -153,7 +175,7 @@ public class Learn extends AppCompatActivity {
 
 
 
-        wv.loadDataWithBaseURL(null, str, "text/html", "utf-8", null);
+        //wv.loadDataWithBaseURL(null, str, "text/html", "utf-8", null);
 
 
 
