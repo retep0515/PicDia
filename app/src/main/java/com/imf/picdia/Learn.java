@@ -78,7 +78,7 @@ public class Learn extends AppCompatActivity {
         //直接從 R.string抓資料，這樣bundle可以少抓一個值
 
         list_records=(ListView)findViewById(R.id.photoList);
-        DBLayout=(LinearLayout)findViewById(R.id.photoList);
+        //DBLayout=(LinearLayout)findViewById(R.id.photoList);
 
 
 
