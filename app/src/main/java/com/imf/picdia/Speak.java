@@ -76,12 +76,15 @@ public class Speak extends AppCompatActivity {
         dbDAO = new DbDAO(getApplicationContext());
         records = dbDAO.getAll(); //這樣的方式有點冗，之後再改成只要隨機查詢一筆資料即可
 
+        /*
+
         for (DBcontact record : records) {
             photosid=""+record.getSid();
             classname=record.getPname();
             break;
             //這只是測試功能正常的寫法，只拿出第一筆照片紀錄來顯示，之後要改成隨機挑選
         }
+        */
 
 
         Log.e(photosid,classname);
@@ -148,12 +151,15 @@ public class Speak extends AppCompatActivity {
     public void showResult(String sttresult){
         showWord.setText(sttresult);
         //showOriginal.setText(classname);
-        if (sttresult.equals(classname))
+        if (sttresult.equals(classname)){
             showCorrect.setText("Correct");
+            Log.e(TAG,"Correct");
+        }
         else
         {
             showCorrect.setText("Wrong");
             showStep.setText("點麥克風再試一次");
+            Log.e(TAG, "Correct");
         }
         //Toast.makeText(MainActivity.this,sttresult,Toast.LENGTH_SHORT).show();
         RecoverButton();

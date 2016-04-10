@@ -57,7 +57,8 @@
         android:id="@+id/textView"
         android:layout_alignTop="@+id/textView2"
         android:layout_alignLeft="@+id/textView4"
-        android:layout_alignStart="@+id/textView4" />
+        android:layout_alignStart="@+id/textView4"
+        android:textColor="#FFFFFF" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -66,7 +67,8 @@
         android:id="@+id/textView2"
         android:layout_alignBottom="@+id/linearLayout"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:textColor="#FFFFFF" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -88,7 +90,8 @@
         android:layout_alignBottom="@+id/textView3"
         android:layout_below="@+id/textView3"
         android:layout_alignRight="@+id/start_speech"
-        android:layout_alignEnd="@+id/start_speech" />
+        android:layout_alignEnd="@+id/start_speech"
+        android:textColor="#FFFFFF" />
 
     <Button
         android:layout_width="wrap_content"
