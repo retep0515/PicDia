@@ -151,7 +151,8 @@ public class Speak extends AppCompatActivity {
     public void showResult(String sttresult){
         showWord.setText(sttresult);
         //showOriginal.setText(classname);
-        if (sttresult.equals(classname)){
+        String low_str=sttresult.toLowerCase();
+        if (low_str.equals(classname)){
             showCorrect.setText("Correct");
             Log.e(TAG,"Correct");
         }
