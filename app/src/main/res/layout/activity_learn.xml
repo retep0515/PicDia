@@ -12,32 +12,39 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/linearLayout2"
+        android:layout_above="@+id/selftest">
 
         <ListView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="409dp"
             android:id="@+id/photoList"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_above="@+id/WVhtml" />
+
     </LinearLayout>
 
-    <WebView
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/WVhtml"
+        android:text="自我測驗"
+        android:id="@+id/selftest"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_above="@+id/back_learn"
-        android:layout_alignTop="@+id/back_learn" />
+        android:textSize="24dp" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="返回"
         android:id="@+id/back_learn"
+        android:layout_gravity="right"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignRight="@+id/linearLayout2"
+        android:layout_alignEnd="@+id/linearLayout2"
+        android:textSize="24dp" />
 
 </RelativeLayout>

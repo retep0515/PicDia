@@ -72,18 +72,19 @@ public class Answer extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_answer);
-        //webip=this.getString(R.string.webip);
-        //直接從 R.string抓資料，這樣bundle可以少抓一個值
         webip=this.getString(R.string.webip);
+        //直接從 R.string抓資料，這樣bundle可以少抓一個值
+        //webip=this.getString(R.string.webip);
 
         ImageButton repeat = (ImageButton)findViewById(R.id.repeat);
-        ImageButton retry = (ImageButton)findViewById(R.id.retry);
+        ImageButton dictionary = (ImageButton)findViewById(R.id.dictionary);
         ImageButton back = (ImageButton)findViewById(R.id.back);
+        ImageButton speak = (ImageButton)findViewById(R.id.speak_practice);
         ImageView photoView = (ImageView)findViewById(R.id.photoView);
         photoView.setImageResource(R.drawable.uploading);
-        TextView chtxt= (TextView)findViewById(R.id.CH);
+        //TextView chtxt= (TextView)findViewById(R.id.CH);
         TextView entxt= (TextView)findViewById(R.id.EN);
-        chtxt.setVisibility(TextView.INVISIBLE);//先不顯示中文
+        //chtxt.setVisibility(TextView.INVISIBLE);//先不顯示中文
         //Button aback = (Button)findViewById(R.id.ab_button); //之後會用imageButtom替換掉
         intent = this.getIntent();
         bundle = intent.getExtras();
@@ -100,14 +101,7 @@ public class Answer extends AppCompatActivity {
             }
         });
 
-        retry.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setResult(1, intent);
-                finish();
 
-            }
-        });
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,6 +109,30 @@ public class Answer extends AppCompatActivity {
                 setResult(0, intent);
                 finish();
 
+            }
+        });
+
+        speak.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //intent 呼叫 speak.java
+                Intent intent = new Intent();
+                intent.setClass(Answer.this,Speak.class);
+                Bundle bundle = new Bundle(); //需要塞進bundle裡面的東西都在intent呼叫之前前塞一塞
+
+                bundle.putString("sid",lastid);
+                bundle.putString("photodir", photodir);
+                bundle.putString("pname",answer);
+                intent.putExtras(bundle);
+                startActivityForResult(intent,1);
+
+            }
+        });
+
+        dictionary.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //接上字典的功能
             }
         });
 

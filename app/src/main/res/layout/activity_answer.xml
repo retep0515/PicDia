@@ -13,8 +13,8 @@
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:id="@+id/photoView"
-        android:layout_above="@+id/CH"
-        android:src="@drawable/uploading" />
+        android:src="@drawable/uploading"
+        android:layout_above="@+id/EN" />
 
     <TextView
         android:layout_width="fill_parent"
@@ -26,22 +26,12 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="中文:"
-        android:id="@+id/CH"
-        android:textSize="24dp"
-        android:layout_above="@+id/EN"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/gridLayout2"
         android:rowCount="3"
-        android:columnCount="3"
+        android:columnCount="5"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
@@ -62,20 +52,18 @@
             android:layout_column="0" />
 
         <ImageButton
-            android:layout_width="111dp"
-            android:layout_height="57dp"
+            android:layout_width="54dp"
+            android:layout_height="75dp"
+            android:id="@+id/dictionary"
             android:scaleType="centerInside"
             android:background="@null"
-            android:id="@+id/retry"
-            android:src="@drawable/camara"
-            android:layout_above="@+id/gridLayout2"
-            android:layout_centerHorizontal="true"
             android:layout_row="0"
-            android:layout_column="1" />
+            android:layout_column="1"
+            android:src="@drawable/book" />
 
         <ImageButton
-            android:layout_width="51dp"
-            android:layout_height="51dp"
+            android:layout_width="76dp"
+            android:layout_height="76dp"
             android:scaleType="centerInside"
             android:background="@null"
             android:id="@+id/back"
@@ -85,5 +73,16 @@
             android:src="@drawable/back"
             android:layout_row="0"
             android:layout_column="2" />
+
+        <ImageButton
+            android:layout_width="75dp"
+            android:layout_height="72dp"
+            android:id="@+id/speak_practice"
+            android:scaleType="centerInside"
+            android:background="@null"
+            android:layout_row="0"
+            android:layout_column="3"
+            android:src="@drawable/speak" />
+
     </GridLayout>
 </RelativeLayout>

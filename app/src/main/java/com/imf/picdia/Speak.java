@@ -28,7 +28,7 @@ public class Speak extends AppCompatActivity {
     private TextView showWord, showCorrect, showStep, showOriginal;
     private Button backButton;
     private ImageView SpeakPhoto;
-    String photosid;
+    String photosid,photodir;
     String classname;//從聖涵那裡抓單字下來 //classname = "dog";
     boolean gotAnswer;
 
@@ -51,6 +51,17 @@ public class Speak extends AppCompatActivity {
         showOriginal = (TextView)findViewById(R.id.textView4); //辨識出來圖片的字
         backButton =(Button)findViewById(R.id.button);
         SpeakPhoto= (ImageView)findViewById(R.id.photo2speak);
+
+
+        Intent intent = this.getIntent();
+        Bundle bundle = intent.getExtras();
+        classname=bundle.getString("pname");
+        photodir=bundle.getString("photodir");
+        photosid=bundle.getString("sid");
+        showWord.setText(classname);
+
+
+
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -97,9 +97,7 @@ public class MainActivity extends AppCompatActivity {
 
         ImageButton pic=(ImageButton) findViewById(R.id.photo);
         ImageButton learn=(ImageButton) findViewById(R.id.learn);
-        ImageButton selfTest=(ImageButton) findViewById(R.id.selfTest);
-        ImageButton speak=(ImageButton) findViewById(R.id.speak);
-        ImageButton setting=(ImageButton) findViewById(R.id.setting);
+
 
 
         Thread t0 = new Thread(startCheck);
@@ -140,46 +138,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        selfTest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(MainActivity.this,SelfTest.class);
-                Bundle bundle = new Bundle();
-                //bundle.putString("input", s2);
-                intent.putExtras(bundle);
-                startActivityForResult(intent,2);
-
-            }
-        });
 
 
-        speak.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(MainActivity.this,Speak.class);
-                Bundle bundle = new Bundle();
-                //bundle.putString("input", s2);
-                intent.putExtras(bundle);
-                startActivityForResult(intent,1);
-
-            }
-        });
 
 
-        setting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(MainActivity.this,Setting.class);
-                Bundle bundle = new Bundle();
-                //bundle.putString("input", s2);
-                intent.putExtras(bundle);
-                startActivityForResult(intent,4);
 
-            }
-        });
 
 
 
@@ -246,31 +209,11 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 break;
-            case 1:  //口說練習
 
-                break;
-            case 2:  //自我測驗
-
-                break;
             case 3:  //學習總覽
 
                 break;
-            case 4:  //功能設定  //傳回值用bitwise來看，如果是0表示沒有修改，else  &1 改語速 &2改語調  &4 改serverIP
-                //從回傳的intent拿修改資料
-                //後來想想覺得這方法不好
-                //準備改成使用sharedPreferences來更改設定
 
-                int cc=data.getExtras().getInt("changeCode");
-                float fc;String newip;
-                if((cc&1)>0){fc=data.getExtras().getFloat("speed");}
-                if((cc&2)>0){fc=data.getExtras().getFloat("pitch");}
-                if((cc&4)>0){newip=data.getExtras().getString("newip");}
-                if((cc&8)>0){}//有想到甚麼再加
-
-
-
-
-                break;
             case 5:  //取得照片，做完處理後交給answer.java 顯示
 
                 //這邊會有個小小的bug 將來有空要記得改

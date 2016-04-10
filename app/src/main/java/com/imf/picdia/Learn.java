@@ -74,7 +74,7 @@ public class Learn extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_learn);
 
-        //webip=this.getString(R.string.webip);
+        webip=this.getString(R.string.webip);
         //直接從 R.string抓資料，這樣bundle可以少抓一個值
 
         list_records=(ListView)findViewById(R.id.photoList);
@@ -82,7 +82,8 @@ public class Learn extends AppCompatActivity {
 
 
 
-        webip=this.getString(R.string.webip);
+
+        //webip=this.getString(R.string.webip);
         //WebView wv= (WebView)findViewById(R.id.WVhtml);
 
 
