@@ -1,23 +1,31 @@
 package com.imf.picdia;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -33,7 +41,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.List;
 import java.util.Locale;
 
 import static java.lang.Thread.sleep;
@@ -66,6 +73,15 @@ public class Answer extends AppCompatActivity {
     //String webip="http://140.113.2.218/~p0213453/AndroidDB/";  //學校計中的server
 
 
+    //dictionary variable
+    String vocabulary="apple";//要查的單字  之後改這邊就好  用intent的方式傳過來即可?
+    String url="http://tw.websaru.com/"+vocabulary+".html";
+    Button btn_out;
+    TextView dict_TV;
+    LinearLayout dict_layout;
+    String title;//存詞性解釋的
+    String sentence="";//存例句的
+
 
 
     @Override
@@ -82,6 +98,13 @@ public class Answer extends AppCompatActivity {
         ImageButton speak = (ImageButton)findViewById(R.id.speak_practice);
         ImageView photoView = (ImageView)findViewById(R.id.photoView);
         photoView.setImageResource(R.drawable.uploading);
+
+        //dict
+        dict_layout =(LinearLayout)findViewById(R.id.dictLayout);
+        dict_TV = (TextView)findViewById(R.id.dict_textView);
+        dict_TV.setMovementMethod(ScrollingMovementMethod.getInstance());
+        btn_out = (Button)findViewById(R.id.button_out_dict);
+        //======
         //TextView chtxt= (TextView)findViewById(R.id.CH);
         TextView entxt= (TextView)findViewById(R.id.EN);
         //chtxt.setVisibility(TextView.INVISIBLE);//先不顯示中文
@@ -132,7 +155,16 @@ public class Answer extends AppCompatActivity {
         dictionary.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //接上字典的功能
+                new Thread(runnable).start();
+                dict_layout.setVisibility(View.VISIBLE);
+            }
+        });
+        //dictionary layout exit button
+        btn_out.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (dict_layout.getVisibility()==View.VISIBLE)
+                    dict_layout.setVisibility(View.GONE);
             }
         });
 
@@ -307,6 +339,41 @@ public class Answer extends AppCompatActivity {
             // ###################__________###############_____________
             // TextView set text
 
+        }
+    };
+
+    //dictionary Parser
+
+
+    Runnable runnable = new Runnable(){
+        @Override
+        public void run() {
+            try {
+                Document document = Jsoup.connect(url).get();
+                Elements div = document.select("div#wrap");
+                Element word=div.select("ol").first();
+                title="詞性解釋："+word.text()+"\n";
+                Elements engsen=div.select("dd");
+                Elements chsen=div.select("dt");
+                for(int i=0;i<4;i++)//例句為爬4句，要多再調即可R
+                {
+                    sentence=sentence+"例句："+engsen.get(i).text()+"\n"+"解釋："+chsen.get(i).text()+"\n";
+                }
+
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            handler.sendEmptyMessage(0);
+        }
+    };
+
+    @SuppressLint("HandlerLeak")
+    Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            dict_TV.setText(title + sentence);//最後用一個textview接  然後顯示出來
         }
     };
 

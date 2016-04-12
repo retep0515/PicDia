@@ -85,4 +85,36 @@
             android:src="@drawable/speak" />
 
     </GridLayout>
+    <LinearLayout
+        android:id = "@+id/dictLayout"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="50dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/corner_hint_layout"
+        android:visibility="gone"
+        >
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="離開字典"
+            android:id="@+id/button_out_dict"
+            android:background="@drawable/corner_hint_btn"
+            android:layout_gravity="center_horizontal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="dict content"
+            android:id="@+id/dict_textView"
+            android:scrollbars="vertical"
+            android:singleLine="false"/>
+
+    </LinearLayout>
 </RelativeLayout>
