@@ -1,5 +1,6 @@
 package com.imf.picdia;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
@@ -17,7 +18,7 @@ public class SelfTest extends AppCompatActivity {
 
     private ImageView img,result;
     private TextView titletext,cortext,corAns,clitext,cliAns,scoreboard;
-    private Button btn_A,btn_B,btn_C,btn_D;
+    private Button btn_A,btn_B,btn_C,btn_D,btn_back;
     private boolean answer =false;
     private String optionA,optionB,optionC,optionD;
     int now=0;
@@ -47,6 +48,7 @@ public class SelfTest extends AppCompatActivity {
         corAns= (TextView)findViewById(R.id.textView_CorAns);
         clitext= (TextView)findViewById(R.id.textView_TAns);
         cliAns= (TextView)findViewById(R.id.textView_cliAns);
+        btn_back= (Button) findViewById(R.id.botton_back);
 
         scoreboard= (TextView)findViewById(R.id.textView_board);
 
@@ -101,13 +103,20 @@ public class SelfTest extends AppCompatActivity {
                 changeoption();
             }
         });
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent back =new Intent();
+                back.setClass(SelfTest.this,Learn.class);
+                startActivity(back);
+            }
+        });
 
 
 
     }
     private void switch2result() {
         result.setVisibility(View.VISIBLE);
-        corAns.setText(optionA);
         now++;
 
         if (answer) {
@@ -136,6 +145,8 @@ public class SelfTest extends AppCompatActivity {
     private void changeoption(){
         switch (now){
             case 1:
+
+                corAns.setText(optionA);
                 btn_A.setText("a");
                 btn_B.setText("b");
                 btn_C.setText("saber");
@@ -145,6 +156,8 @@ public class SelfTest extends AppCompatActivity {
                 setQphoto(img_path);
                 break;
             case 2:
+
+                corAns.setText(optionC);
                 btn_A.setText("a");
                 btn_B.setText("b");
                 btn_C.setText("c");
@@ -154,6 +167,8 @@ public class SelfTest extends AppCompatActivity {
                 setQphoto(img_path);
                 break;
             case 3:
+
+                corAns.setText(optionD);
                 btn_A.setText("miku");
                 btn_B.setText("b");
                 btn_C.setText("c");
@@ -163,6 +178,8 @@ public class SelfTest extends AppCompatActivity {
                 setQphoto(img_path);
                 break;
             case 4:
+
+                corAns.setText(optionA);
                 btn_A.setText("a");
                 btn_B.setText("lancer");
                 btn_C.setText("c");
@@ -172,6 +189,8 @@ public class SelfTest extends AppCompatActivity {
                 setQphoto(img_path);
                 break;
             case 5:
+
+                corAns.setText(optionB);
                 btn_A.setVisibility(View.INVISIBLE);
                 btn_B.setVisibility(View.INVISIBLE);
                 btn_C.setVisibility(View.INVISIBLE);

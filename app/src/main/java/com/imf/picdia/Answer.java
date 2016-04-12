@@ -155,6 +155,7 @@ public class Answer extends AppCompatActivity {
         dictionary.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                vocabulary=answer;
                 new Thread(runnable).start();
                 dict_layout.setVisibility(View.VISIBLE);
             }
@@ -377,7 +378,7 @@ public class Answer extends AppCompatActivity {
         }
     };
 
-
+//==================
 
 
     Runnable waitAnswer =new Runnable() {

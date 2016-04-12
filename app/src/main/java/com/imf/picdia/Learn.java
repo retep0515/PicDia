@@ -1,19 +1,33 @@
 package com.imf.picdia;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Handler;
+import android.os.Message;
+import android.renderscript.Sampler;
+import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.webkit.WebView;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 public class Learn extends AppCompatActivity {
 
@@ -35,10 +49,8 @@ public class Learn extends AppCompatActivity {
     private DBAdapter dbAdapter;
     // 儲存所有記事本的List物件
 
-    // 選單項目物件
-
-    private Button toMap;
-    private Button backToMap;
+    //for TTS
+    String answer="";
 
 
 
@@ -66,6 +78,16 @@ public class Learn extends AppCompatActivity {
     //String webip 的取得形式，換成R.string全域調用的寫法試試
     String webip;
     String lastid,photodir,readData;
+    private Button toSelftest;
+
+    //dictionary variable
+    String vocabulary="apple";//要查的單字  之後改這邊就好  用intent的方式傳過來即可?
+    String url="http://tw.websaru.com/"+vocabulary+".html";
+    Button btn_out;
+    TextView dict_TV;
+    LinearLayout dict_layout;
+    String title;//存詞性解釋的
+    String sentence="";//存例句的
 
 
 
@@ -73,12 +95,61 @@ public class Learn extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_learn);
-
+        DBactstart();
         webip=this.getString(R.string.webip);
         //直接從 R.string抓資料，這樣bundle可以少抓一個值
-
+        dbcontact= new DBcontact();
+        dbDAO=new DbDAO(getApplicationContext());
+        Log.i(TAG,"DB Setup");
+        if (dbDAO.getCount()==0){
+            dbDAO.sample();
+        }
+        records= dbDAO.getAll();
+        dbAdapter = new DBAdapter(this,R.layout.db_item,records);
         list_records=(ListView)findViewById(R.id.photoList);
+        list_records.setAdapter(dbAdapter);
+        Log.i(TAG, "Get records  " + dbDAO.getCount());
+        toSelftest =(Button)findViewById(R.id.selftest);
         //DBLayout=(LinearLayout)findViewById(R.id.photoList);
+
+        //TTs Setup
+        tts = new TextToSpeech(Learn.this, ttsInitListener);
+
+
+        list_records.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //重念該詞一次
+                //讓TTS再念一次
+                tts.speak(dbAdapter.get(position).getPname(), TextToSpeech.QUEUE_FLUSH, null);
+            }
+        });
+        list_records.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                vocabulary=dbAdapter.get(position).getPname();
+                new Thread(runnable).start();
+                dict_layout.setVisibility(View.VISIBLE);
+                return false;
+            }
+        });
+
+        toSelftest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent toself=new Intent();
+                toself.setClass(Learn.this,SelfTest.class);
+                startActivity(toself);
+            }
+        });
+        btn_out = (Button)findViewById(R.id.button_out_dict);
+        btn_out.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (dict_layout.getVisibility()==View.VISIBLE)
+                    dict_layout.setVisibility(View.GONE);
+            }
+        });
 
 
 
@@ -108,28 +179,6 @@ public class Learn extends AppCompatActivity {
         //用dbDAO來取得資料庫並做操作
 
 
-
-
-
-        for (DBcontact record : records) {
-            dbAdapter = new DBAdapter(Learn.this, R.layout.db_item, records);
-            if (dbAdapter == null) {
-                Log.d(TAG, "list_recorder is null");
-            } else {
-                list_records.setAdapter(dbAdapter);
-                Log.i(TAG, "Get records  " + dbDAO.getCount());
-            }
-            setContentView(R.layout.activity_learn);
-
-        }
-
-
-
-
-
-
-
-
         str="<head><title>LearnRecord</title></head><body>" +
                 "<table border=\"1\"><tr><th>id</th><th>server_id</th><th>name</th></tr>";
         for (DBcontact record : records) {
@@ -140,19 +189,7 @@ public class Learn extends AppCompatActivity {
         str+="</table></body></html>";
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-        /*
+     /*
         try {
             FileReader fr = new FileReader(photodir+"/output.txt");
             BufferedReader br = new BufferedReader(fr);
@@ -169,15 +206,7 @@ public class Learn extends AppCompatActivity {
         */
 
 
-
-
-
-
-
-
-
-        //wv.loadDataWithBaseURL(null, str, "text/html", "utf-8", null);
-
+       //wv.loadDataWithBaseURL(null, str, "text/html", "utf-8", null);
 
 
         /*   把已經準備好的網頁內容顯示出來
@@ -210,23 +239,76 @@ public class Learn extends AppCompatActivity {
 
 
          */
-
-
-
-
-
     }
 
 
     public String generateHTMLcode(){  //metadata 的寫法
 
-
-
-
-
-
     return str;
     }
+    //===================================================
+    //TTS
+    protected TextToSpeech tts; //private 改 protected 試試看
+    private TextToSpeech.OnInitListener ttsInitListener = new TextToSpeech.OnInitListener() {
+        public void onInit(int status) {
+            if (status == TextToSpeech.SUCCESS) {
+                int result = tts.setLanguage(Locale.US);
+
+// 如果該語言資料不見了或沒有支援則無法使用
+                if (result == TextToSpeech.LANG_MISSING_DATA
+                        || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                    Log.e("TTS", "This Language is not supported");
+                } else {
+// 語調(1為正常語調；0.5比正常語調低一倍；2比正常語調高一倍)
+                    tts.setPitch((float) 1.5);
+// 速度(1為正常速度；0.5比正常速度慢一倍；2比正常速度快一倍)
+                    tts.setSpeechRate((float) 1.0);
+// 設定要說的內容文字
+                    tts.speak(answer, TextToSpeech.QUEUE_FLUSH, null);
+                }
+            } else {
+                //Toast.makeText(MainActivity.this, "Initialization Failed!",
+                //Toast.LENGTH_LONG).show();
+            }
+        }
+    };
 
 
+    //====================================================================================================
+    //dictionary Parser
+    Runnable runnable = new Runnable(){
+        @Override
+        public void run() {
+            try {
+                Document document = Jsoup.connect(url).get();
+                Elements div = document.select("div#wrap");
+                Element word=div.select("ol").first();
+                title="詞性解釋："+word.text()+"\n";
+                Elements engsen=div.select("dd");
+                Elements chsen=div.select("dt");
+                for(int i=0;i<4;i++)//例句為爬4句，要多再調即可R
+                {
+                    sentence=sentence+"例句："+engsen.get(i).text()+"\n"+"解釋："+chsen.get(i).text()+"\n";
+                }
+
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            Dict_handler.sendEmptyMessage(0);
+        }
+    };
+
+    @SuppressLint("HandlerLeak")
+    Handler Dict_handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            dict_TV.setText(title + sentence);//最後用一個textview接  然後顯示出來
+        }
+    };
+
+    public void DBactstart() {
+        Log.i(TAG, "DBactivity Start Up");
+    }
 }
