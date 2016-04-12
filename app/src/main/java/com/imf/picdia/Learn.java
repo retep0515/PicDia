@@ -78,7 +78,7 @@ public class Learn extends AppCompatActivity {
     //String webip 的取得形式，換成R.string全域調用的寫法試試
     String webip;
     String lastid,photodir,readData;
-    private Button toSelftest;
+    private Button toSelftest,toIndex;
 
     //dictionary variable
     String vocabulary="apple";//要查的單字  之後改這邊就好  用intent的方式傳過來即可?
@@ -140,6 +140,7 @@ public class Learn extends AppCompatActivity {
                 Intent toself=new Intent();
                 toself.setClass(Learn.this,SelfTest.class);
                 startActivity(toself);
+                finish();
             }
         });
         btn_out = (Button)findViewById(R.id.button_out_dict);
@@ -150,7 +151,16 @@ public class Learn extends AppCompatActivity {
                     dict_layout.setVisibility(View.GONE);
             }
         });
-
+        toIndex =(Button)findViewById(R.id.back_index);
+        toIndex.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent toself=new Intent();
+                toself.setClass(Learn.this,MainActivity.class);
+                startActivity(toself);
+                finish();
+            }
+        });
 
 
 
@@ -159,11 +169,11 @@ public class Learn extends AppCompatActivity {
 
 
 
-        intent = this.getIntent();
-        bundle = intent.getExtras();
-        //webip=bundle.getString("webip");
-        //lastid=bundle.getString("lastid");
-        photodir=bundle.getString("photodir");
+//        intent = this.getIntent();
+//        bundle = intent.getExtras();
+//        //webip=bundle.getString("webip");
+//        //lastid=bundle.getString("lastid");
+//        photodir=bundle.getString("photodir");
 
         //________________________DB______________________________
         //insert 不行，換成用update操作試試
@@ -174,19 +184,19 @@ public class Learn extends AppCompatActivity {
         //else{Log.e(TAG,"update success");}
 
 
-        dbDAO = new DbDAO(getApplicationContext());
-        records = dbDAO.getAll();  //把所有的資料都丟給 private List<DBcontact> records;
-        //用dbDAO來取得資料庫並做操作
+//        dbDAO = new DbDAO(getApplicationContext());
+//        records = dbDAO.getAll();  //把所有的資料都丟給 private List<DBcontact> records;
+//        //用dbDAO來取得資料庫並做操作
 
-
-        str="<head><title>LearnRecord</title></head><body>" +
-                "<table border=\"1\"><tr><th>id</th><th>server_id</th><th>name</th></tr>";
-        for (DBcontact record : records) {
-            s_append="<tr><th>"+record.getId()+"</th><th>"+record.getSid()+"</th><th>"+record.getPname()+"</th></tr>";
-            str+=s_append;//開個for迴圈，把一行一行的資料寫成HTML<table>的格式
-            Log.e(TAG, "ID in DB : " + record.getId()+"_"+record.getSid()+"_"+record.getPname());
-        }
-        str+="</table></body></html>";
+//
+//        str="<head><title>LearnRecord</title></head><body>" +
+//                "<table border=\"1\"><tr><th>id</th><th>server_id</th><th>name</th></tr>";
+//        for (DBcontact record : records) {
+//            s_append="<tr><th>"+record.getId()+"</th><th>"+record.getSid()+"</th><th>"+record.getPname()+"</th></tr>";
+//            str+=s_append;//開個for迴圈，把一行一行的資料寫成HTML<table>的格式
+//            Log.e(TAG, "ID in DB : " + record.getId()+"_"+record.getSid()+"_"+record.getPname());
+//        }
+//        str+="</table></body></html>";
 
 
      /*

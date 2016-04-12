@@ -49,7 +49,7 @@ public class SelfTest extends AppCompatActivity {
         clitext= (TextView)findViewById(R.id.textView_TAns);
         cliAns= (TextView)findViewById(R.id.textView_cliAns);
         btn_back= (Button) findViewById(R.id.botton_back);
-
+        btn_back.setVisibility(View.INVISIBLE);
         scoreboard= (TextView)findViewById(R.id.textView_board);
 
         result.setVisibility(View.GONE);
@@ -109,6 +109,7 @@ public class SelfTest extends AppCompatActivity {
                 Intent back =new Intent();
                 back.setClass(SelfTest.this,Learn.class);
                 startActivity(back);
+                finish();
             }
         });
 
@@ -118,7 +119,6 @@ public class SelfTest extends AppCompatActivity {
     private void switch2result() {
         result.setVisibility(View.VISIBLE);
         now++;
-
         if (answer) {
             result.setImageResource(R.drawable.tick);
             score++;
@@ -146,11 +146,8 @@ public class SelfTest extends AppCompatActivity {
         switch (now){
             case 1:
 
-                corAns.setText(optionA);
-                btn_A.setText("a");
-                btn_B.setText("b");
-                btn_C.setText("saber");
-                btn_D.setText("d");
+                corAns.setText(optionA);//設定上題正解
+                setOptionText("a","b","Saber","D");
                 img_path="/sdcard/pixiv/pixiv55975068.png";
                 correctCode=3;  //選項C為真
                 setQphoto(img_path);
@@ -158,10 +155,7 @@ public class SelfTest extends AppCompatActivity {
             case 2:
 
                 corAns.setText(optionC);
-                btn_A.setText("a");
-                btn_B.setText("b");
-                btn_C.setText("c");
-                btn_D.setText("pokemon");
+                setOptionText("a","b","C","pokemon");
                 correctCode=4;  //選項D為真
                 img_path="/sdcard/pixiv/pixiv55538971_1.png";
                 setQphoto(img_path);
@@ -169,10 +163,7 @@ public class SelfTest extends AppCompatActivity {
             case 3:
 
                 corAns.setText(optionD);
-                btn_A.setText("miku");
-                btn_B.setText("b");
-                btn_C.setText("c");
-                btn_D.setText("d");
+                setOptionText("miku","b","c","D");
                 correctCode=1;  //選項A為真
                 img_path="/sdcard/pixiv/pixiv55541172.jpg";
                 setQphoto(img_path);
@@ -180,10 +171,7 @@ public class SelfTest extends AppCompatActivity {
             case 4:
 
                 corAns.setText(optionA);
-                btn_A.setText("a");
-                btn_B.setText("lancer");
-                btn_C.setText("c");
-                btn_D.setText("d");
+                setOptionText("a","lancer","C","D");
                 correctCode=2;  //選項B為真
                 img_path="/sdcard/pixiv/pixiv54561644.jpg";
                 setQphoto(img_path);
@@ -201,12 +189,23 @@ public class SelfTest extends AppCompatActivity {
                 cliAns.setVisibility(View.INVISIBLE);
                 clitext.setVisibility(View.INVISIBLE);
                 result.setVisibility(View.INVISIBLE);
+                btn_back.setVisibility(View.VISIBLE);
                 img_path="";
                 setQphoto(img_path);
                 break;
 
         }
 
+    }
+    private void setOptionText(String A,String B,String C,String D){
+        optionA= A;
+        optionB= B;
+        optionC= C;
+        optionD= D;
+        btn_A.setText(optionA);
+        btn_B.setText(optionB);
+        btn_C.setText(optionC);
+        btn_D.setText(optionD);
     }
 }
 

@@ -159,9 +159,9 @@ public class DbDAO {
 
     public void sample(){
 
-        DBcontact RS1= new DBcontact(0,1,"1");
-        DBcontact RS2= new DBcontact(0,2,"2");
-        DBcontact RS3= new DBcontact(0,3,"3");
+        DBcontact RS1= new DBcontact(0,1,"Bee");
+        DBcontact RS2= new DBcontact(0,2,"Star");
+        DBcontact RS3= new DBcontact(0,3,"Cat");
         //DBcontact RS1= new DBcontact(0,"SampleTest1forDB",dBcontact.get_Time(),25.047924, 121.517081);
         //DBcontact RS2= new DBcontact(0,"SampleTest2forDB",dBcontact.get_Time(),25.047924, 121.517081);
         //DBcontact RS3= new DBcontact(0,"SampleTest3forDB",dBcontact.get_Time(),25.047924, 121.517081);
