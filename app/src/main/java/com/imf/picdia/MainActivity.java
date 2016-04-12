@@ -94,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         webip=this.getString(R.string.webip);
+        //直接從 R.string抓資料，這樣bundle可以少抓一個值
 
         ImageButton pic=(ImageButton) findViewById(R.id.photo);
         ImageButton learn=(ImageButton) findViewById(R.id.learn);

@@ -88,9 +88,9 @@ public class Answer extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_answer);
-        webip=this.getString(R.string.webip);
-        //直接從 R.string抓資料，這樣bundle可以少抓一個值
         //webip=this.getString(R.string.webip);
+        //直接從 R.string抓資料，這樣bundle可以少抓一個值
+        webip=this.getString(R.string.webip);
 
         ImageButton repeat = (ImageButton)findViewById(R.id.repeat);
         ImageButton dictionary = (ImageButton)findViewById(R.id.dictionary);
@@ -112,7 +112,7 @@ public class Answer extends AppCompatActivity {
         intent = this.getIntent();
         bundle = intent.getExtras();
         photodir=bundle.getString("photodir");
-        Log.e("photodir= ",photodir);
+        Log.e("photodir= ", photodir);
         //webip=bundle.getString("webip");
 
 
@@ -152,22 +152,7 @@ public class Answer extends AppCompatActivity {
             }
         });
 
-        dictionary.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                vocabulary=answer;
-                new Thread(runnable).start();
-                dict_layout.setVisibility(View.VISIBLE);
-            }
-        });
-        //dictionary layout exit button
-        btn_out.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (dict_layout.getVisibility()==View.VISIBLE)
-                    dict_layout.setVisibility(View.GONE);
-            }
-        });
+
 
 
         tts = new TextToSpeech(Answer.this, ttsInitListener);
@@ -222,29 +207,41 @@ public class Answer extends AppCompatActivity {
 
             //接下來要把結果唸出來
 
-
             toSpeak = answer;
 
-
             tts.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
-
-
-
-
 
             dbDAO = new DbDAO(getApplicationContext());
             dbDAO.insertRecord(Integer.valueOf(lastid),answer);
             ///////////////////////////////////////////////////////////////////////////////////////
             //這邊的sid暫時用Integer.valueOf()來補，之後有時間要記得全部改成String格式
             ///////////////////////////////////////////////////////////////////////////////////////
-
             //Toast.makeText(getApplicationContext(), toSpeak, Toast.LENGTH_SHORT).show();
-
-
-
         }
 
         entxt.setText(answer);
+        vocabulary=answer;
+        //拿到辨識結果後才建立字典的OnClickLstener
+        url="http://tw.websaru.com/"+vocabulary+".html";
+
+        dictionary.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //vocabulary = answer;
+                new Thread(runnable).start();
+                dict_layout.setVisibility(View.VISIBLE);
+            }
+        });
+        //dictionary layout exit button
+        btn_out.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (dict_layout.getVisibility()==View.VISIBLE)
+                    dict_layout.setVisibility(View.GONE);
+            }
+        });
+
+
         //firstin//////////////////////////////////////////////////////////////////////////////////
     }
 

@@ -6,7 +6,7 @@
 
 
     <ImageView
-        android:layout_width="300dp"
+        android:layout_width="fill_parent"
         android:layout_height="300dp"
         android:id="@+id/item_photo"
         android:layout_alignParentTop="true" />
@@ -18,8 +18,7 @@
         android:id="@+id/item_name"
         android:textSize="35sp"
         android:textStyle="bold"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/item_photo"
-        android:layout_toEndOf="@+id/item_photo" />
+        android:layout_below="@+id/item_photo"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

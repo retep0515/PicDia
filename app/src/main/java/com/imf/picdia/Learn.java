@@ -82,7 +82,8 @@ public class Learn extends AppCompatActivity {
 
     //dictionary variable
     String vocabulary="apple";//要查的單字  之後改這邊就好  用intent的方式傳過來即可?
-    String url="http://tw.websaru.com/"+vocabulary+".html";
+    //String url="http://tw.websaru.com/"+vocabulary+".html";
+    String url;
     Button btn_out;
     TextView dict_TV;
     LinearLayout dict_layout;
@@ -90,12 +91,12 @@ public class Learn extends AppCompatActivity {
     String sentence="";//存例句的
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_learn);
         DBactstart();
+
         webip=this.getString(R.string.webip);
         //直接從 R.string抓資料，這樣bundle可以少抓一個值
         dbcontact= new DBcontact();
@@ -224,33 +225,22 @@ public class Learn extends AppCompatActivity {
 
         //每一筆資料的架構:
         //<tr><td>【img a href...id】</td><td>【NAME CH】</td><td>【NAME EN】</td><td>【photoTIME】</td></tr>
-
         try {
             FileReader fr = new FileReader(photodir+"/output.txt");
             BufferedReader br = new BufferedReader(fr);
-
             String temp = br.readLine(); //readLine()讀取一整行
             while (temp != null) {
                 readData += temp;
                 temp = br.readLine();
             }
-
         }catch (IOException e) {
             e.printStackTrace();
         }
-
         str=readData+"</table></body></html>";
-
         ##注意，如果要方便append，我在顯示的時候要自己加上HTML table 的收尾 tag >>已加
-
-
         wv.loadDataWithBaseURL(null, str, "text/html", "utf-8", null);
-
-
-
          */
     }
-
 
     public String generateHTMLcode(){  //metadata 的寫法
 
@@ -283,13 +273,13 @@ public class Learn extends AppCompatActivity {
         }
     };
 
-
     //====================================================================================================
     //dictionary Parser
     Runnable runnable = new Runnable(){
         @Override
         public void run() {
             try {
+                url="http://tw.websaru.com/"+vocabulary+".html";
                 Document document = Jsoup.connect(url).get();
                 Elements div = document.select("div#wrap");
                 Element word=div.select("ol").first();

@@ -105,7 +105,8 @@
             android:text="離開字典"
             android:id="@+id/button_out_dict"
             android:background="@drawable/corner_hint_btn"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            />
 
         <TextView
             android:layout_width="wrap_content"
@@ -114,6 +115,7 @@
             android:text="dict content"
             android:id="@+id/dict_textView"
             android:scrollbars="vertical"
+            android:textColor="#FFFFFF"
             android:singleLine="false"/>
 
     </LinearLayout>
