@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">PicDia</string>
 
-    <string name="webip">http://140.113.2.218/~p0213453/AndroidDB/</string >
+    <string name="webip">http://192.168.0.112/demo/</string >
 
 
 
@@ -9,6 +9,8 @@
     <string name="webip">http://192.168.0.100/photo/</string >
     交大計中測試用server
 
+        zoe's iphone
+        http://172.20.10.2/photo/
 
     <string name="webip">http://172.18.73.118/photo/</string >
 

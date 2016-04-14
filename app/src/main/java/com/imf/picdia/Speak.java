@@ -45,10 +45,10 @@ public class Speak extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_speak);
-        showWord = (TextView)findViewById(R.id.textView); //顯示使用者念出來ㄉ字
-        showCorrect = (TextView)findViewById(R.id.textView2); //念對與否
+        //showWord = (TextView)findViewById(R.id.textView); //顯示使用者念出來ㄉ字
+        //showCorrect = (TextView)findViewById(R.id.textView2); //念對與否
         showStep = (TextView)findViewById(R.id.textView3);
-        showOriginal = (TextView)findViewById(R.id.textView4); //辨識出來圖片的字
+       // showOriginal = (TextView)findViewById(R.id.textView4); //辨識出來圖片的字
         backButton =(Button)findViewById(R.id.button);
         SpeakPhoto= (ImageView)findViewById(R.id.photo2speak);
 
