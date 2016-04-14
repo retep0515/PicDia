@@ -9,6 +9,7 @@ import android.renderscript.Sampler;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
@@ -83,8 +84,7 @@ public class Learn extends AppCompatActivity {
 
     //dictionary variable
     String vocabulary="apple";//要查的單字  之後改這邊就好  用intent的方式傳過來即可?
-    //String url="http://tw.websaru.com/"+vocabulary+".html";
-    String url;
+    String url="http://tw.websaru.com/"+vocabulary+".html";
     Button btn_out;
     TextView dict_TV;
     LinearLayout dict_layout;
@@ -114,6 +114,14 @@ public class Learn extends AppCompatActivity {
         toSelftest =(ImageButton) findViewById(R.id.selftest);
         //DBLayout=(LinearLayout)findViewById(R.id.photoList);
 
+
+        //dictlayout
+        dict_layout =(LinearLayout)findViewById(R.id.dictLayout);
+        dict_TV = (TextView)findViewById(R.id.dict_textView);
+        dict_TV.setMovementMethod(ScrollingMovementMethod.getInstance());
+        btn_out = (Button)findViewById(R.id.button_out_dict);
+
+
         //TTs Setup
         tts = new TextToSpeech(Learn.this, ttsInitListener);
 
@@ -131,6 +139,7 @@ public class Learn extends AppCompatActivity {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 vocabulary=dbAdapter.get(position).getPname();
                 Log.d(TAG,"VOC  "+ vocabulary);
+                url="http://tw.websaru.com/"+vocabulary+".html";
                 new Thread(runnable).start();
                 dict_layout.setVisibility(View.VISIBLE);
                 return false;
@@ -282,7 +291,7 @@ public class Learn extends AppCompatActivity {
         @Override
         public void run() {
             try {
-                url="http://tw.websaru.com/"+vocabulary+".html";
+
                 Document document = Jsoup.connect(url).get();
                 Elements div = document.select("div#wrap");
                 Element word=div.select("ol").first();
@@ -298,19 +307,20 @@ public class Learn extends AppCompatActivity {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            Dict_handler.sendEmptyMessage(0);
+            handler.sendEmptyMessage(0);
         }
     };
 
     @SuppressLint("HandlerLeak")
-    Handler Dict_handler = new Handler(){
+    Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            dict_TV.setText(title + sentence);//最後用一個textview接  然後顯示出來
+            dict_TV.setText(vocabulary +"\n"+title + sentence);//最後用一個textview接  然後顯示出來
+            Log.d(TAG, "handleMessage: "+vocabulary +"\n"+ title    +sentence);
         }
     };
-
+//
     public void DBactstart() {
         Log.i(TAG, "DBactivity Start Up");
     }

@@ -371,7 +371,8 @@ public class Answer extends AppCompatActivity {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            dict_TV.setText(title + sentence);//最後用一個textview接  然後顯示出來
+            dict_TV.setText(vocabulary +"\n"+title + sentence);//最後用一個textview接  然後顯示出來
+            Log.d(TAG, "handleMessage: "+vocabulary +"\n"+ title    +sentence);
         }
     };
 

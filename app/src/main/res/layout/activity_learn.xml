@@ -73,7 +73,8 @@
             android:text="dict content"
             android:id="@+id/dict_textView"
             android:scrollbars="vertical"
-            android:singleLine="false"/>
+            android:singleLine="false"
+            android:textColor="#ffffff"/>
 
     </LinearLayout>
 
