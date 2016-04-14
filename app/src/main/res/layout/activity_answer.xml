@@ -51,8 +51,8 @@
             android:layout_column="0" />
 
         <ImageButton
-            android:layout_width="116dp"
-            android:layout_height="49dp"
+            android:layout_width="76dp"
+            android:layout_height="76dp"
             android:scaleType="centerInside"
             android:background="@drawable/repeat"
             android:id="@+id/repeat"
@@ -66,8 +66,8 @@
             android:layout_column="1" />
 
         <ImageButton
-            android:layout_width="54dp"
-            android:layout_height="75dp"
+            android:layout_width="76dp"
+            android:layout_height="76dp"
             android:id="@+id/dictionary"
             android:scaleType="centerInside"
             android:background="@drawable/learn"
@@ -76,8 +76,8 @@
           />
 
         <ImageButton
-            android:layout_width="75dp"
-            android:layout_height="72dp"
+            android:layout_width="76dp"
+            android:layout_height="76dp"
             android:id="@+id/speak_practice"
             android:scaleType="centerInside"
             android:background="@drawable/volume"

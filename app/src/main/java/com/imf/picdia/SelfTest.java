@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,7 +19,8 @@ public class SelfTest extends AppCompatActivity {
 
     private ImageView img,result;
     private TextView titletext,cortext,corAns,clitext,cliAns,scoreboard;
-    private Button btn_A,btn_B,btn_C,btn_D,btn_back;
+    private Button btn_A,btn_B,btn_C,btn_D;
+    private ImageButton btn_back;
     private boolean answer =false;
     private String optionA,optionB,optionC,optionD;
     int now=0;
@@ -48,7 +50,7 @@ public class SelfTest extends AppCompatActivity {
         corAns= (TextView)findViewById(R.id.textView_CorAns);
         clitext= (TextView)findViewById(R.id.textView_TAns);
         cliAns= (TextView)findViewById(R.id.textView_cliAns);
-        btn_back= (Button) findViewById(R.id.botton_back);
+        btn_back= (ImageButton) findViewById(R.id.botton_back);
         btn_back.setVisibility(View.INVISIBLE);
         scoreboard= (TextView)findViewById(R.id.textView_board);
 

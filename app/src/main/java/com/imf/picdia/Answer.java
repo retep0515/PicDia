@@ -125,7 +125,7 @@ public class Answer extends AppCompatActivity {
         });
 
 
-
+        //back.setVisibility(View.INVISIBLE);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
