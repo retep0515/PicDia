@@ -10,49 +10,77 @@
     android:background="@drawable/background"
     tools:context="com.imf.picdia.MainActivity">
 
-    <ImageButton
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:id="@+id/imageView2"
+        android:src="@drawable/picdia"/>
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@null"
-        android:scaleType="centerInside"
-        android:id="@+id/photo"
-        android:src="@drawable/camara"
-
-
-        android:layout_above="@+id/photo_T"
-        android:layout_centerHorizontal="true" />
-
-    <ImageButton
-        android:layout_width="169dp"
-        android:layout_height="170dp"
-        android:background="@null"
-        android:scaleType="centerCrop"
-        android:id="@+id/learn"
         android:layout_row="3"
         android:layout_column="0"
-        android:src="@drawable/learn"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:id="@+id/linearLayout3"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
-    <TextView
+        <ImageButton
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:id="@+id/photo"
+            android:scaleType="center"
+            android:background="@drawable/camera_icon"
+
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="拍照辨識"
+            android:id="@+id/photo_T"
+            android:textSize="24dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignLeft="@+id/learn_T"
+            android:layout_alignStart="@+id/learn_T"
+            android:layout_gravity="center_horizontal" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="學習總覽"
-        android:id="@+id/learn_T"
-        android:layout_row="4"
-        android:layout_column="0"
-        android:layout_gravity="center_horizontal"
-        android:textSize="24dp"
-        android:layout_above="@+id/photo"
-        android:layout_centerHorizontal="true" />
+        android:id="@+id/linearLayout4"
+        android:layout_alignTop="@+id/linearLayout3"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="拍照辨識"
-        android:id="@+id/photo_T"
-        android:textSize="24dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/learn_T"
-        android:layout_alignStart="@+id/learn_T" />
+        <ImageButton
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:id="@+id/learn"
+            android:background="@drawable/bag"
+            android:scaleType="center"
+            android:layout_alignTop="@+id/linearLayout4"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="學習總覽"
+            android:id="@+id/learn_T"
+            android:layout_row="4"
+            android:layout_column="0"
+            android:layout_gravity="center_horizontal"
+            android:textSize="24dp"
+            android:layout_centerHorizontal="true"
+            android:layout_above="@+id/photo_T" />
+
+    </LinearLayout>
+
+
 </RelativeLayout>

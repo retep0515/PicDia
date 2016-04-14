@@ -13,9 +13,8 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/linearLayout2"
-        android:layout_above="@+id/selftest">
+        android:layout_height="wrap_content"
+        android:id="@+id/linearLayout2">
 
         <ListView
             android:layout_width="wrap_content"
@@ -27,26 +26,24 @@
 
     </LinearLayout>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="自我測驗"
-        android:id="@+id/selftest"
+    <ImageButton
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/back_index"
+        android:background="@drawable/back"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:textSize="24dp" />
+        android:layout_alignParentStart="true" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="返回"
-        android:id="@+id/back_index"
-        android:layout_gravity="right"
+    <ImageButton
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/selftest"
+       android:background="@drawable/test_icon"
         android:layout_alignParentBottom="true"
         android:layout_alignRight="@+id/linearLayout2"
-        android:layout_alignEnd="@+id/linearLayout2"
-        android:textSize="24dp" />
+        android:layout_alignEnd="@+id/linearLayout2" />
+
     <LinearLayout
         android:id = "@+id/dictLayout"
         android:orientation="vertical"
