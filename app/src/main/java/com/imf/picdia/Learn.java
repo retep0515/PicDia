@@ -14,6 +14,7 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -78,7 +79,7 @@ public class Learn extends AppCompatActivity {
     //String webip 的取得形式，換成R.string全域調用的寫法試試
     String webip;
     String lastid,photodir,readData;
-    private Button toSelftest,toIndex;
+    private ImageButton toSelftest,toIndex;
 
     //dictionary variable
     String vocabulary="apple";//要查的單字  之後改這邊就好  用intent的方式傳過來即可?
@@ -110,7 +111,7 @@ public class Learn extends AppCompatActivity {
         list_records=(ListView)findViewById(R.id.photoList);
         list_records.setAdapter(dbAdapter);
         Log.i(TAG, "Get records  " + dbDAO.getCount());
-        toSelftest =(Button)findViewById(R.id.selftest);
+        toSelftest =(ImageButton) findViewById(R.id.selftest);
         //DBLayout=(LinearLayout)findViewById(R.id.photoList);
 
         //TTs Setup
@@ -129,6 +130,7 @@ public class Learn extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 vocabulary=dbAdapter.get(position).getPname();
+                Log.d(TAG,"VOC  "+ vocabulary);
                 new Thread(runnable).start();
                 dict_layout.setVisibility(View.VISIBLE);
                 return false;
@@ -152,7 +154,8 @@ public class Learn extends AppCompatActivity {
                     dict_layout.setVisibility(View.GONE);
             }
         });
-        toIndex =(Button)findViewById(R.id.back_index);
+
+        toIndex =(ImageButton)findViewById(R.id.back_index);
         toIndex.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
