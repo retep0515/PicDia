@@ -32,7 +32,7 @@
             android:layout_height="160dp"
             android:id="@+id/photo"
             android:scaleType="center"
-            android:background="@drawable/camera_icon"
+            android:background="@drawable/camera"
 
             />
 
@@ -62,7 +62,7 @@
             android:layout_width="160dp"
             android:layout_height="160dp"
             android:id="@+id/learn"
-            android:background="@drawable/bag"
+            android:background="@drawable/document"
             android:scaleType="center"
             android:layout_alignTop="@+id/linearLayout4"
             android:layout_alignParentRight="true"

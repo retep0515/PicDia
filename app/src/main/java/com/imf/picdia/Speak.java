@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaPlayer;
 import android.os.Environment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
@@ -45,7 +46,7 @@ public class Speak extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_speak);
-        //showWord = (TextView)findViewById(R.id.textView); //顯示使用者念出來ㄉ字
+        showWord = (TextView)findViewById(R.id.textView); //顯示使用者念出來ㄉ字
         //showCorrect = (TextView)findViewById(R.id.textView2); //念對與否
         showStep = (TextView)findViewById(R.id.textView3);
        // showOriginal = (TextView)findViewById(R.id.textView4); //辨識出來圖片的字
@@ -152,17 +153,10 @@ public class Speak extends AppCompatActivity {
         showWord.setText(sttresult);
         //showOriginal.setText(classname);
         String low_str=sttresult.toLowerCase();
-        if (low_str.equals(classname)){
-            showCorrect.setText("Correct");
-            Log.e(TAG,"Correct");
-        }
-        else
-        {
-            showCorrect.setText("Wrong");
-            showStep.setText("點麥克風再試一次");
-            Log.e(TAG, "Correct");
-        }
-        //Toast.makeText(MainActivity.this,sttresult,Toast.LENGTH_SHORT).show();
+        showCorrect.setText("Correct");
+        MediaPlayer mpc =MediaPlayer.create(getApplicationContext(),R.raw.correct_sound);
+        mpc.start();
+        Toast.makeText(Speak.this,sttresult,Toast.LENGTH_SHORT).show();
         RecoverButton();
     }
 

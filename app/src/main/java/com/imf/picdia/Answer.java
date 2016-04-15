@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.speech.tts.TextToSpeech;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
@@ -88,11 +89,7 @@ public class Answer extends AppCompatActivity {
     LinearLayout dict_layout;
     String title;//存詞性解釋的
     String sentence="";//存例句的
-    ImageButton repeat = (ImageButton)findViewById(R.id.repeat);
-    ImageButton dictionary = (ImageButton)findViewById(R.id.dictionary);
-    ImageButton back = (ImageButton)findViewById(R.id.back);
-    ImageButton speak = (ImageButton)findViewById(R.id.speak_practice);
-    ImageView photoView = (ImageView)findViewById(R.id.photoView);
+
 
 
 
@@ -105,8 +102,12 @@ public class Answer extends AppCompatActivity {
         webip=this.getString(R.string.webip);
 
 
+        ImageButton repeat = (ImageButton)findViewById(R.id.repeat);
+        ImageButton dictionary = (ImageButton)findViewById(R.id.dictionary);
+        ImageButton back = (ImageButton)findViewById(R.id.back);
+        ImageButton speak = (ImageButton)findViewById(R.id.speak_practice);
+        ImageView photoView = (ImageView)findViewById(R.id.photoView);
         photoView.setImageResource(R.drawable.uploading);
-        back.setVisibility(View.INVISIBLE);
         //dict
         dict_layout =(LinearLayout)findViewById(R.id.dictLayout);
         dict_TV = (TextView)findViewById(R.id.dict_textView);
@@ -148,11 +149,8 @@ public class Answer extends AppCompatActivity {
             public void onClick(View v) {
                 //intent 呼叫 speak.java
                 Intent intent = new Intent();
-                intent.setClass(Answer.this, MainService.class);
-                intent.setPackage(getPackageName());
-                startService(intent);
-                Toast.makeText(Answer.this,"請念出單字　:  ",Toast.LENGTH_LONG);
-
+                intent.setClass(Answer.this, Speak.class);
+                startActivity(intent);
             }
         });
 
@@ -206,13 +204,9 @@ public class Answer extends AppCompatActivity {
                     e.printStackTrace();
                     Log.e("sleep()失敗", "debug");
                 }
-
             }
-
             //接下來要把結果唸出來
-
             toSpeak = answer;
-
             tts.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
 
             dbDAO = new DbDAO(getApplicationContext());
@@ -381,76 +375,8 @@ public class Answer extends AppCompatActivity {
     };
 
 //==================
-//=====SpeechRecogniz======
 
-    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            // Extract data included in the Intent
 
-            String sttresult = intent.getStringExtra("result");
-            Log.d("receiver", "Got message: " + sttresult);
-            showResult(sttresult);
-
-        }
-    };
-
-    public void showResult(String sttresult){
-        String low_str=sttresult.toLowerCase();
-
-        if (low_str==answer.toLowerCase()){
-
-            speakright=true;
-            back.setVisibility(View.VISIBLE);
-            speak.setVisibility(View.VISIBLE);
-            AlertDialog.Builder correct =new AlertDialog.Builder(Answer.this);
-            LayoutInflater factory= LayoutInflater.from(Answer.this);
-            final View view =factory.inflate(R.layout.dialog_correct,null);
-            TextView speakanswer = (TextView)findViewById(R.id.textView_AnsTF);
-            MediaPlayer mpc =MediaPlayer.create(getApplicationContext(),R.raw.correct_sound);
-            mpc.start();
-            speakanswer.setText("  做得好!!! ");
-            ImageView imageView= (ImageView)findViewById(R.id.imageView_TF);
-            imageView.setImageResource(R.drawable.tick);
-            correct.setView(view);
-            correct.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-
-                }
-            });
-            correct.show();
-            Log.e(TAG,"Correct");
-        }
-        else
-        {
-
-            speakright=false;
-            speak.setVisibility(View.VISIBLE);
-            AlertDialog.Builder wrong =new AlertDialog.Builder(Answer.this);
-            LayoutInflater factory= LayoutInflater.from(Answer.this);
-            final View view =factory.inflate(R.layout.dialog_correct,null);
-            TextView speakanswer = (TextView)findViewById(R.id.textView_AnsTF);
-            MediaPlayer mpw =MediaPlayer.create(getApplicationContext(),R.raw.wrong_sound);
-            mpw.start();
-            speakanswer.setText("  再試一次吧~~ ");
-            ImageView imageView= (ImageView)findViewById(R.id.imageView_TF);
-            imageView.setImageResource(R.drawable.wrong);
-            wrong.setView(view);
-            wrong.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-
-                }
-            });
-            wrong.show();
-            Log.e(TAG,"Wrong");
-        }
-        //Toast.makeText(MainActivity.this,sttresult,Toast.LENGTH_SHORT).show();
-
-    }
-
-//===========================
     Runnable waitAnswer =new Runnable() {
         @Override
         public void run() {
@@ -510,14 +436,14 @@ public class Answer extends AppCompatActivity {
                 now = now.substring(i, k);
 
                 k=now.indexOf("##########");
-              int scount=0;
-                boolean checkfirstword=true;
-                for (scount=0;scount<=k;scount++){
-                    if (now.charAt(scount)==','&&checkfirstword){
-                        k=scount;
-                        checkfirstword=false;
-                    }
-                }
+//              int scount=0;
+//                boolean checkfirstword=true;
+//                for (scount=0;scount<=k;scount++){
+//                    if (now.charAt(scount)==','&&checkfirstword){
+//                        k=scount;
+//                        checkfirstword=false;
+//                    }
+//                }
                 answer=now.substring(0,k);
 
                 score=now.substring(k+10,now.length());

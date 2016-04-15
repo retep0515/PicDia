@@ -72,7 +72,7 @@
             android:layout_height="76dp"
             android:id="@+id/dictionary"
             android:scaleType="centerInside"
-            android:background="@drawable/learn"
+            android:background="@drawable/dictionary_128"
             android:layout_row="0"
             android:layout_column="3"
           />

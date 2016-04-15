@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">PicDia</string>
 
-    <string name="webip">http://192.168.0.112/demo/</string >
+    <string name="webip">http://172.20.10.2/photo/</string >
 
-
+1
 
     <!--    //小白盒wifi
     <string name="webip">http://192.168.0.100/photo/</string >

@@ -182,7 +182,7 @@ public class SelfTest extends AppCompatActivity {
                 btn_B.setVisibility(View.INVISIBLE);
                 btn_C.setVisibility(View.INVISIBLE);
                 btn_D.setVisibility(View.INVISIBLE);
-                titletext.setText("測驗已完成!!! 右上角為您本次測驗的分數");
+                titletext.setText("測驗已完成!!! 下方為您本次測驗的分數");
                 result.setVisibility(View.INVISIBLE);
                 btn_back.setVisibility(View.VISIBLE);
                 img.setVisibility(View.INVISIBLE);
