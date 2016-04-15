@@ -159,16 +159,17 @@ public class DbDAO {
 
     public void sample(){
 
-        DBcontact RS1= new DBcontact(0,1,"Bee");
-        DBcontact RS2= new DBcontact(0,2,"Star");
-        DBcontact RS3= new DBcontact(0,3,"Cat");
-        //DBcontact RS1= new DBcontact(0,"SampleTest1forDB",dBcontact.get_Time(),25.047924, 121.517081);
-        //DBcontact RS2= new DBcontact(0,"SampleTest2forDB",dBcontact.get_Time(),25.047924, 121.517081);
-        //DBcontact RS3= new DBcontact(0,"SampleTest3forDB",dBcontact.get_Time(),25.047924, 121.517081);
-        //DBcontact RS4= new DBcontact(0,"SampleTest4forDB",dBcontact.get_Time(),25.047924, 121.517081);
+        DBcontact RS1= new DBcontact(0,1,"Chair");
+        DBcontact RS2= new DBcontact(0,2,"Apple");
+        DBcontact RS3= new DBcontact(0,3,"Hot dog");
+        DBcontact RS4= new DBcontact(0,4,"umbrella");
+        DBcontact RS5= new DBcontact(0,5,"dog");
+
         insert(RS1);
         insert(RS2);
         insert(RS3);
+        insert(RS4);
+        insert(RS5);
         //insert(RS4);
     }
 

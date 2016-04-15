@@ -149,8 +149,14 @@ public class Answer extends AppCompatActivity {
             public void onClick(View v) {
                 //intent 呼叫 speak.java
                 Intent intent = new Intent();
-                intent.setClass(Answer.this, Speak.class);
-                startActivity(intent);
+                intent.setClass(Answer.this,Speak.class);
+                Bundle bundle = new Bundle(); //需要塞進bundle裡面的東西都在intent呼叫之前前塞一塞
+
+                bundle.putString("sid",lastid);
+                bundle.putString("photodir", photodir);
+                bundle.putString("pname",answer);
+                intent.putExtras(bundle);
+                startActivityForResult(intent,1);
             }
         });
 
@@ -170,16 +176,12 @@ public class Answer extends AppCompatActivity {
         //firstin//////////////////////////////////////////////////////////////////////////////////
         if(firstin){
             firstin=false;
-
             //lastid=bundle.getString("lastid");
-
             //Thread tgetid = new Thread(getnowid);
             //tgetid.run();
-
             //idReady=false;
             Thread t1 = new Thread(getnowid);  //跟server要id編號
             t1.start();
-
             try { //避免server太忙，id過很久才回傳，所以先sleep 1秒
                 sleep(1000);
             } catch (InterruptedException e) {

@@ -82,7 +82,7 @@
             android:layout_height="76dp"
             android:id="@+id/speak_practice"
             android:scaleType="centerInside"
-            android:background="@drawable/volume"
+            android:background="@drawable/spea"
             android:layout_row="0"
             android:layout_column="2"
             />

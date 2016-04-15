@@ -86,10 +86,7 @@ public class Speak extends AppCompatActivity {
             //這只是測試功能正常的寫法，只拿出第一筆照片紀錄來顯示，之後要改成隨機挑選
         }
         */
-
-
         Log.e(photosid,classname);
-
         BitmapFactory.Options options;
         options = new BitmapFactory.Options();
         options.inSampleSize = 2;
@@ -110,18 +107,16 @@ public class Speak extends AppCompatActivity {
                 intent.setClass(Speak.this, MainService.class);
                 intent.setPackage(getPackageName());
                 startService(intent);
-
                 //classname = getString(R.string.dog);
-                showOriginal.setText(classname);
+
                 showWord.setText("");
-                showCorrect.setText("");
+
                 showStep.setText("請說話");
                 startSpeech.setEnabled(false);
                 startSpeech.setVisibility(View.GONE);
                 Log.d(TAG, "jump2MainService");
             }
         });
-
     }
 
 
@@ -132,10 +127,9 @@ public class Speak extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             // Extract data included in the Intent
-
             String sttresult = intent.getStringExtra("result");
             Log.d("receiver", "Got message: " + sttresult);
-            Toast.makeText(Speak.this, sttresult, Toast.LENGTH_SHORT).show();
+            //t.makeText(Speak.this, sttresult, Toast.LENGTH_SHORT).show();
             gotAnswer=true;
             showResult(sttresult);
         }
@@ -153,10 +147,10 @@ public class Speak extends AppCompatActivity {
         showWord.setText(sttresult);
         //showOriginal.setText(classname);
         String low_str=sttresult.toLowerCase();
-        showCorrect.setText("Correct");
+//        showCorrect.setText("Correct");
         MediaPlayer mpc =MediaPlayer.create(getApplicationContext(),R.raw.correct_sound);
         mpc.start();
-        Toast.makeText(Speak.this,sttresult,Toast.LENGTH_SHORT).show();
+        //Toast.makeText(Speak.this,sttresult,Toast.LENGTH_SHORT).show();
         RecoverButton();
     }
 
@@ -191,7 +185,6 @@ public class Speak extends AppCompatActivity {
             Log.e("Speak", "Run to OnResume");
         }
         ////////////////////////////////////////////////////////
-
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("my-event"));
     }
     @Override

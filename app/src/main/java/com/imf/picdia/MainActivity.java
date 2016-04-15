@@ -20,10 +20,12 @@ import android.widget.Toast;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -33,7 +35,8 @@ import static java.lang.Thread.sleep;
 
 public class MainActivity extends AppCompatActivity {
 
-
+//==========
+    public DbDAO dbDAO;
 
 
 
@@ -321,6 +324,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
     Runnable startCheck = new Runnable() {
         @Override
         public void run() {
@@ -331,8 +335,67 @@ public class MainActivity extends AppCompatActivity {
                 folder= new File(getSdcardPath()+"/PicDia/photos");
                 folder.mkdir();
 
+
+                dbDAO=new DbDAO(getApplicationContext());
+                dbDAO.sample();
+
+
+                OutputStream outStream;
+                Bitmap bm;
+                File file;
+
+
+                try {
+                    bm = BitmapFactory.decodeResource( getResources(), R.drawable.selftest2);
+                    file = new File(getSdcardPath()+"/PicDia/photos/","1.jpg");
+                    outStream = new FileOutputStream(file);
+                    bm.compress(Bitmap.CompressFormat.PNG, 100, outStream);
+                    outStream.flush();
+                    outStream.close();
+
+
+                    bm = BitmapFactory.decodeResource( getResources(), R.drawable.selftest1);
+                    file = new File(getSdcardPath()+"/PicDia/photos/","2.jpg");
+                    outStream = new FileOutputStream(file);
+                    bm.compress(Bitmap.CompressFormat.PNG, 100, outStream);
+                    outStream.flush();
+                    outStream.close();
+
+                    bm = BitmapFactory.decodeResource( getResources(), R.drawable.selftest4);
+                    file = new File(getSdcardPath()+"/PicDia/photos/","3.jpg");
+                    outStream = new FileOutputStream(file);
+                    bm.compress(Bitmap.CompressFormat.PNG, 100, outStream);
+                    outStream.flush();
+                    outStream.close();
+
+                    bm = BitmapFactory.decodeResource( getResources(), R.drawable.selftest3);
+                    file = new File(getSdcardPath()+"/PicDia/photos/","4.jpg");
+                    outStream = new FileOutputStream(file);
+                    bm.compress(Bitmap.CompressFormat.PNG, 100, outStream);
+                    outStream.flush();
+                    outStream.close();
+
+                    bm = BitmapFactory.decodeResource( getResources(), R.drawable.selftest5);
+                    file = new File(getSdcardPath()+"/PicDia/photos/","5.jpg");
+                    outStream = new FileOutputStream(file);
+                    bm.compress(Bitmap.CompressFormat.PNG, 100, outStream);
+                    outStream.flush();
+                    outStream.close();
+
+
+
+
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
                 //////////////////////////////////////////////////////////////
                 //還有建立學習歷程記錄的文字檔
+
+                /*
                 try {
                     FileWriter fw = new FileWriter(getSdcardPath()+"/PicDia/learn.txt", false);
                     BufferedWriter bw = new BufferedWriter(fw);
@@ -343,6 +406,10 @@ public class MainActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
+                */
+
+
             }
 
             ///////////////////////////////////////////////////////////////////
@@ -378,9 +445,6 @@ public class MainActivity extends AppCompatActivity {
                     //彈出視窗提醒使用者拍照上傳辨識的功能目前無法使用
 
 
-
-
-
                 }
 
 
@@ -391,16 +455,9 @@ public class MainActivity extends AppCompatActivity {
             }
 
 
-
-
-
-
-
-
-
-
         }
     };
+
 
 
     Runnable txtio = new Runnable() {
