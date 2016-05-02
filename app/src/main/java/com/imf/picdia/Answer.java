@@ -280,22 +280,15 @@ public class Answer extends AppCompatActivity {
 
         try {
             URL url_address = new URL(strURL);
-
-
             conn= (HttpURLConnection)url_address.openConnection();
             conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/525.19 (KHTML, like Gecko) Chrome/0.3.154.9 Safari/525.19");
             conn.setRequestProperty("Accept-Charset", "utf-8");//測試看看加上這一行後資料夾名稱為中文亂碼的問題有沒有解決///////////////////////////////////////////////////
-
-
-
 
             Log.e("URL",strURL);
 
             //下一行有bug
             inStream = new InputStreamReader(conn.getInputStream(),"UTF-8"); //如果是無效的URL，會在這一行丟出FileNotFoundException
             //inStream = new InputStreamReader(conn.getInputStream()); //如果是無效的URL，會在這一行丟出FileNotFoundException
-
-
 
 
             //因為上面那一行執行後等待時間過久，被系統判斷導致當機沒有回應，而丟出 "android.os.NetworkOnMainThreadException"
@@ -390,7 +383,7 @@ public class Answer extends AppCompatActivity {
             ///////////////////上傳照片並等待辨識結果
             registerReceiver(AsyncTaskForPostFileReceiver, new IntentFilter("PostFileComplete"));
             AsyncTaskForPostFile PostFile = new AsyncTaskForPostFile(Answer.this);
-            PostFile.execute(photodir + "/now2.jpg", webip + "test.php", lastid + ".jpg");
+            PostFile.execute(photodir + "/now2.jpg", webip + "test-2.php", lastid + ".jpg");
 
 
 
@@ -412,6 +405,7 @@ public class Answer extends AppCompatActivity {
             k = now.lastIndexOf("body");
             i += 5;
             k -= 2;
+
             now = now.substring(i, k);
 
             k=now.indexOf("##########");

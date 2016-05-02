@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">PicDia</string>
 
-    <string name="webip">http://172.20.10.2/photo/</string >
+    <string name="webip">http://140.113.72.12:8089/photo/</string >
 
 1
 
