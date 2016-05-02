@@ -22,8 +22,6 @@ import java.util.List;
 public class DBAdapter extends ArrayAdapter<DBcontact> {
 
     private int resource;
-    private DbDAO dbDAO;
-    private DBcontact dBcontact;
     private List<DBcontact> dBcontacts;
 
 
@@ -44,16 +42,22 @@ public class DBAdapter extends ArrayAdapter<DBcontact> {
             String inflater = Context.LAYOUT_INFLATER_SERVICE;
             LayoutInflater li = (LayoutInflater) getContext().getSystemService(inflater);
             li.inflate(resource, recordView, true);
-
-
         } else {
             recordView = (LinearLayout) convertView;
         }
+
+
         String img_path=getSdcardPath()+"/PicDia/photos/"+dBcontact.getSid()+".jpg";
-        Log.e(dBcontact.getPname(),img_path);
+
+        //  改這邊從Drawable拿
+
+
         ImageView item_p = (ImageView) recordView.findViewById(R.id.item_photo);
         TextView item_pname = (TextView) recordView.findViewById(R.id.item_name);
+
         item_pname.setText(dBcontact.getPname());
+
+
 
         BitmapFactory.Options options;
         options = new BitmapFactory.Options();
